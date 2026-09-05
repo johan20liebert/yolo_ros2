@@ -1,0 +1,23 @@
+source  ~/d435i_ws/install/setup.bash
+
+
+ros2 launch realsense2_camera rs_yolo.py
+
+
+yolo export model=yolov8m.pt format=engine imgsz=480,848 dynamic=True half=True device=0
+
+
+
+yolo export model=yolov8m.pt format=engine imgsz=640 half=True device=0
+
+
+
+mkdir -p /home/loc/AI_drone/yolo_ros2/tmp
+TMPDIR=/home/loc/AI_drone/yolo_ros2/tmp pip install --extra-index-url https://pypi.nvidia.com/ tensorrt
+
+
+
+cd ~/AI_drone/yolo_ros2
+source install/setup.bash
+ ros2 launch yolo_bringup yolo.launch.py   device:=cuda:0   model:=/home/loc/AI_drone/yolo_ros2/yolov8m.engine   imgsz_height:=640   imgsz_width:=640   half:=True   fuse_model:=False   yolo_encoding:=bgr8   input_image_topic:=/camera/camera/color/image_raw   image_reliability:=1   enable:=True   use_tracking:=True   threshold:=0.15
+

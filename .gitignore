@@ -1,0 +1,8 @@
+build/
+install/
+log/
+runs/
+torchinductor_loc/
+*.engine
+*.pt
+*.onnx
